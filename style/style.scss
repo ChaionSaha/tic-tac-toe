@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
+
+*,
+*::before,
+*::after {
+	padding: 0;
+	margin: 0;
+	font-family: inherit;
+	box-sizing: border-box;
+	// font-weight: inherit;
+}
+
+body {
+	height: 100vh;
+	width: 100vw;
+	background: linear-gradient(to top left, #753682 0%, #bf2e34 100%);
+	font-family: "Inconsolata", monospace;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.main-game {
+	position: relative;
+	width: 70vw;
+	height: 70vh;
+	background-color: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(100px);
+	box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.2);
+	border-radius: 9px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& .result {
+		position: absolute;
+		z-index: 10;
+		display: flex;
+		width: 100%;
+		height: 100%;
+		align-items: center;
+		transition: all 200ms;
+		color: rgba(255, 255, 255, 0.1);
+		font-size: 7vw;
+		-webkit-text-stroke: 1px rgba(0, 0, 0, 0.25);
+		font-weight: 900;
+
+		& div {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+
+		& p {
+			&:first-of-type {
+				margin-bottom: 10%;
+			}
+		}
+	}
+}
+
+.active {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+/////////////////////////////////////////////
+/// Making the table
+.table {
+	border-collapse: collapse;
+	z-index: 100;
+	height: 70%;
+	width: 35%;
+	display: flex;
+	flex-direction: column;
+
+	& .tr {
+		display: flex;
+		width: 100%;
+		height: 33%;
+
+		&:first-of-type .td {
+			border-top: none;
+		}
+
+		&:last-of-type .td {
+			border-bottom: none;
+		}
+
+		& .td:first-of-type {
+			border-left: none;
+		}
+
+		& .td:last-of-type {
+			border-right: none;
+		}
+	}
+
+	& .td {
+		//padding: 0.5rem;
+		border: 2px solid rgba(255, 255, 255, 1);
+		text-align: center;
+		font-size: 6vw;
+		font-weight: 300;
+		color: rgba(255, 255, 255, 1);
+		width: 33%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
