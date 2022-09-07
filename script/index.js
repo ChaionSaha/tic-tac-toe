@@ -9,6 +9,11 @@ let xPlayerPos = [];
 let oPlayerPos = [];
 let xPlayerWinCount = 0,
 	oPlayerWinCount = 0;
+let winnerNotification = document.querySelector(".win-notification p");
+let count = 9;
+
+document.querySelector(".x-result").innerHTML = `${xPlayerWinCount}`;
+document.querySelector(".o-result").innerHTML = `${oPlayerWinCount}`;
 
 let winLogics = [
 	["11", "12", "13"],
@@ -36,10 +41,8 @@ updateUI(xPlayer);
 function updateWinUI() {
 	document.querySelector(".x-result").innerHTML = `${xPlayerWinCount}`;
 	document.querySelector(".o-result").innerHTML = `${oPlayerWinCount}`;
-	if (xPlayerWinCount || oPlayerWinCount)
-		document.querySelector(".table").classList.add("blur");
+	document.querySelector(".table").classList.add("blur");
 }
-updateWinUI();
 
 //////////////////////////////////////
 /// Subset Finding
@@ -67,6 +70,7 @@ const arrSubset = function (player = []) {
 document.addEventListener("click", (e) => {
 	if (e.target.classList.contains("td")) {
 		if (!e.target.innerHTML == "") return;
+		count--;
 		const tableID = e.target.dataset.id;
 
 		if (xPlayerTurn) {
@@ -78,6 +82,12 @@ document.addEventListener("click", (e) => {
 			if (xPlayerPos.length > 2 && arrSubset(xPlayerPos)) {
 				xPlayerWinCount++;
 				updateWinUI();
+				xPlayerTurn = false;
+				oPlayerTurn = false;
+				winnerNotification.innerHTML = "X Wins🏆";
+				setTimeout(function () {
+					winnerNotification.innerHTML = "";
+				}, 2000);
 			} else updateUI(oPlayer);
 		} else if (oPlayerTurn) {
 			e.target.innerHTML = "o";
@@ -88,7 +98,17 @@ document.addEventListener("click", (e) => {
 			if (oPlayerPos.length > 2 && arrSubset(oPlayerPos)) {
 				oPlayerWinCount++;
 				updateWinUI();
+				xPlayerTurn = false;
+				oPlayerTurn = false;
+				winnerNotification.innerHTML = "O Wins🏆";
+				setTimeout(function () {
+					winnerNotification.innerHTML = "";
+				}, 2000);
 			} else updateUI(xPlayer);
+		} else if (count == 0) {
+			xPlayerTurn = false;
+			oPlayerTurn = false;
+			winnerNotification.innerHTML = "DRAW";
 		}
 	} else if (e.target.classList.contains("reset")) {
 		xPlayerTurn = true;
