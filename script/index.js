@@ -10,7 +10,8 @@ let oPlayerPos = [];
 let xPlayerWinCount = 0,
 	oPlayerWinCount = 0;
 let winnerNotification = document.querySelector(".win-notification p");
-let count = 9;
+let turnCount = 9,
+	winFlag = false;
 
 document.querySelector(".x-result").innerHTML = `${xPlayerWinCount}`;
 document.querySelector(".o-result").innerHTML = `${oPlayerWinCount}`;
@@ -55,7 +56,6 @@ const arrSubset = function (player = []) {
 	winLogics.forEach((logic) => {
 		result = logic.every((val) => player.includes(val));
 		if (result == true) {
-			//console.log(result);
 			count++;
 			return;
 		}
@@ -70,7 +70,7 @@ const arrSubset = function (player = []) {
 document.addEventListener("click", (e) => {
 	if (e.target.classList.contains("td")) {
 		if (!e.target.innerHTML == "") return;
-		count--;
+		turnCount--;
 		const tableID = e.target.dataset.id;
 
 		if (xPlayerTurn) {
@@ -84,6 +84,7 @@ document.addEventListener("click", (e) => {
 				updateWinUI();
 				xPlayerTurn = false;
 				oPlayerTurn = false;
+				winFlag = true;
 				winnerNotification.innerHTML = "X Wins🏆";
 				setTimeout(function () {
 					winnerNotification.innerHTML = "";
@@ -101,14 +102,20 @@ document.addEventListener("click", (e) => {
 				xPlayerTurn = false;
 				oPlayerTurn = false;
 				winnerNotification.innerHTML = "O Wins🏆";
+				winFlag = true;
 				setTimeout(function () {
 					winnerNotification.innerHTML = "";
 				}, 2000);
 			} else updateUI(xPlayer);
-		} else if (count == 0) {
+		}
+		if (turnCount == 0 && !winFlag) {
 			xPlayerTurn = false;
 			oPlayerTurn = false;
 			winnerNotification.innerHTML = "DRAW";
+			document.querySelector(".table").classList.add("blur");
+			setTimeout(function () {
+				winnerNotification.innerHTML = "";
+			}, 2000);
 		}
 	} else if (e.target.classList.contains("reset")) {
 		xPlayerTurn = true;
@@ -116,6 +123,8 @@ document.addEventListener("click", (e) => {
 
 		xPlayerPos = [];
 		oPlayerPos = [];
+		winFlag = false;
+		turnCount = 9;
 
 		updateUI(xPlayer);
 		document.querySelectorAll(".td").forEach((td) => {
