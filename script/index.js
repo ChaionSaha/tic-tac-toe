@@ -48,7 +48,7 @@ function updateWinUI() {
 	const tds = document.querySelectorAll('.td');
 	tds.forEach((td) => {
 		if (highLight.includes(td.dataset.id)) {
-			td.style.color = 'rgba(255, 255, 255, 1)';
+			td.classList.add('win-td');
 		}
 	});
 }
@@ -141,6 +141,7 @@ document.addEventListener('click', (e) => {
 		updateUI(xPlayer);
 		document.querySelectorAll('.td').forEach((td) => {
 			td.innerHTML = '';
+			td.classList.remove('win-td');
 		});
 
 		document.querySelector('.table').classList.remove('blur');
