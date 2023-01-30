@@ -70,6 +70,9 @@ body {
   align-items: center;
   height: 100%;
 }
+.main-game .result p {
+  user-select: none;
+}
 .main-game .result p:first-of-type {
   margin-bottom: 10%;
 }
@@ -104,7 +107,7 @@ body {
   animation: spring-bounce;
   animation-duration: 200ms;
   animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: linear;
 }
 
 .active {
@@ -161,9 +164,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  transition: all 300ms;
 }
 
 .blur .td {
-  border-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.25);
   color: rgba(0, 0, 0, 0.25);
 }

@@ -1,5 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+
+$border-color: rgba(255, 255, 255, 1);
+$dark-border-color: rgba(0, 0, 0, 0.25);
 
 *,
 *::before,
@@ -15,7 +18,7 @@ body {
 	height: 100vh;
 	width: 100vw;
 	background: linear-gradient(to top left, #753682 0%, #bf2e34 100%);
-	font-family: "Inconsolata", monospace;
+	font-family: 'Inconsolata', monospace;
 
 	display: flex;
 	justify-content: center;
@@ -27,7 +30,7 @@ body {
 ////////////////////////////////////////////////////
 /// Win Notification
 .win-notification {
-	font-family: "Playfair Display SC", serif;
+	font-family: 'Playfair Display SC', serif;
 	position: absolute;
 	top: 12%;
 	left: 50%;
@@ -81,6 +84,7 @@ body {
 		}
 
 		& p {
+			user-select: none;
 			&:first-of-type {
 				margin-bottom: 10%;
 			}
@@ -101,7 +105,7 @@ body {
 		transition: all 200ms;
 
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			height: 100%;
 			width: 150%;
@@ -120,7 +124,7 @@ body {
 				animation: spring-bounce;
 				animation-duration: 200ms;
 				animation-fill-mode: forwards;
-				animation-timing-function: ease-in-out;
+				animation-timing-function: /*ease-in-out*/ linear;
 			}
 		}
 	}
@@ -182,22 +186,24 @@ body {
 
 	& .td {
 		//padding: 0.5rem;
-		border: 2px solid rgba(255, 255, 255, 1);
+		border: 2px solid $border-color;
 		text-align: center;
 		font-size: 6vw;
 		font-weight: 300;
-		color: rgba(255, 255, 255, 1);
+		color: $border-color;
 		width: 33%;
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		user-select: none;
+		transition: all 300ms;
 	}
 }
 
 .blur {
 	.td {
-		border-color: rgba(0, 0, 0, 0.25);
-		color: rgba(0, 0, 0, 0.25);
+		border-color: lighten($dark-border-color, 100%);
+		color: $dark-border-color;
 	}
 }

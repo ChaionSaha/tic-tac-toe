@@ -1,48 +1,56 @@
-"use strict";
+'use strict';
 
-const xPlayer = document.querySelector(".x");
-const oPlayer = document.querySelector(".o");
-const players = document.querySelectorAll(".player");
+const xPlayer = document.querySelector('.x');
+const oPlayer = document.querySelector('.o');
+const players = document.querySelectorAll('.player');
 let xPlayerTurn = true,
 	oPlayerTurn = false;
 let xPlayerPos = [];
 let oPlayerPos = [];
 let xPlayerWinCount = 0,
 	oPlayerWinCount = 0;
-let winnerNotification = document.querySelector(".win-notification p");
+let winnerNotification = document.querySelector('.win-notification p');
 let turnCount = 9,
+	highLight = [],
 	winFlag = false;
 
-document.querySelector(".x-result").innerHTML = `${xPlayerWinCount}`;
-document.querySelector(".o-result").innerHTML = `${oPlayerWinCount}`;
+document.querySelector('.x-result').innerHTML = `${xPlayerWinCount}`;
+document.querySelector('.o-result').innerHTML = `${oPlayerWinCount}`;
 
 let winLogics = [
-	["11", "12", "13"],
-	["21", "22", "23"],
-	["31", "32", "33"],
-	["11", "21", "31"],
-	["12", "22", "32"],
-	["13", "23", "33"],
-	["11", "22", "33"],
-	["13", "22", "31"],
+	['11', '12', '13'],
+	['21', '22', '23'],
+	['31', '32', '33'],
+	['11', '21', '31'],
+	['12', '22', '32'],
+	['13', '23', '33'],
+	['11', '22', '33'],
+	['13', '22', '31'],
 ];
 
 /////////////////////////////////////
 /// Active Player update
 const updateUI = function (player) {
 	players.forEach((player) => {
-		player.classList.remove("active");
+		player.classList.remove('active');
 	});
-	player.classList.add("active");
+	player.classList.add('active');
 };
 updateUI(xPlayer);
 
 ////////////////////////////////////////
 /// Winner count update
 function updateWinUI() {
-	document.querySelector(".x-result").innerHTML = `${xPlayerWinCount}`;
-	document.querySelector(".o-result").innerHTML = `${oPlayerWinCount}`;
-	document.querySelector(".table").classList.add("blur");
+	document.querySelector('.x-result').innerHTML = `${xPlayerWinCount}`;
+	document.querySelector('.o-result').innerHTML = `${oPlayerWinCount}`;
+	document.querySelector('.table').classList.add('blur');
+	console.log(highLight);
+	const tds = document.querySelectorAll('.td');
+	tds.forEach((td) => {
+		if (highLight.includes(td.dataset.id)) {
+			td.style.color = 'rgba(255, 255, 255, 1)';
+		}
+	});
 }
 
 //////////////////////////////////////
@@ -53,10 +61,12 @@ const arrSubset = function (player = []) {
 	});
 	let result,
 		count = 0;
+
 	winLogics.forEach((logic) => {
 		result = logic.every((val) => player.includes(val));
 		if (result == true) {
 			count++;
+			highLight = logic;
 			return;
 		}
 	});
@@ -67,14 +77,14 @@ const arrSubset = function (player = []) {
 
 ///////////////////////////////////////////
 /// Click event
-document.addEventListener("click", (e) => {
-	if (e.target.classList.contains("td")) {
-		if (!e.target.innerHTML == "") return;
+document.addEventListener('click', (e) => {
+	if (e.target.classList.contains('td')) {
+		if (!e.target.innerHTML == '') return;
 		turnCount--;
 		const tableID = e.target.dataset.id;
 
 		if (xPlayerTurn) {
-			e.target.innerHTML = "x";
+			e.target.innerHTML = 'x';
 			xPlayerTurn = false;
 			oPlayerTurn = true;
 			xPlayerPos.push(tableID);
@@ -85,13 +95,15 @@ document.addEventListener("click", (e) => {
 				xPlayerTurn = false;
 				oPlayerTurn = false;
 				winFlag = true;
-				winnerNotification.innerHTML = "X Wins🏆";
+				winnerNotification.innerHTML = 'X Wins🏆';
+				xPlayer.classList.remove('active');
+				oPlayer.classList.remove('active');
 				setTimeout(function () {
-					winnerNotification.innerHTML = "";
+					winnerNotification.innerHTML = '';
 				}, 2000);
 			} else updateUI(oPlayer);
 		} else if (oPlayerTurn) {
-			e.target.innerHTML = "o";
+			e.target.innerHTML = 'o';
 			oPlayerTurn = false;
 			xPlayerTurn = true;
 			oPlayerPos.push(tableID);
@@ -101,23 +113,23 @@ document.addEventListener("click", (e) => {
 				updateWinUI();
 				xPlayerTurn = false;
 				oPlayerTurn = false;
-				winnerNotification.innerHTML = "O Wins🏆";
+				winnerNotification.innerHTML = 'O Wins🏆';
 				winFlag = true;
 				setTimeout(function () {
-					winnerNotification.innerHTML = "";
+					winnerNotification.innerHTML = '';
 				}, 2000);
 			} else updateUI(xPlayer);
 		}
 		if (turnCount == 0 && !winFlag) {
 			xPlayerTurn = false;
 			oPlayerTurn = false;
-			winnerNotification.innerHTML = "DRAW";
-			document.querySelector(".table").classList.add("blur");
+			winnerNotification.innerHTML = 'DRAW';
+			document.querySelector('.table').classList.add('blur');
 			setTimeout(function () {
-				winnerNotification.innerHTML = "";
+				winnerNotification.innerHTML = '';
 			}, 2000);
 		}
-	} else if (e.target.classList.contains("reset")) {
+	} else if (e.target.classList.contains('reset')) {
 		xPlayerTurn = true;
 		oPlayerTurn = false;
 
@@ -127,10 +139,10 @@ document.addEventListener("click", (e) => {
 		turnCount = 9;
 
 		updateUI(xPlayer);
-		document.querySelectorAll(".td").forEach((td) => {
-			td.innerHTML = "";
+		document.querySelectorAll('.td').forEach((td) => {
+			td.innerHTML = '';
 		});
 
-		document.querySelector(".table").classList.remove("blur");
+		document.querySelector('.table').classList.remove('blur');
 	}
 });
